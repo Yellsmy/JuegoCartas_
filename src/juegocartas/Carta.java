@@ -8,8 +8,8 @@ package juegocartas;
 
 public class Carta 
 {
-    private String palo;
-    private String identificadorCarta;
+    String palo;
+    String identificadorCarta;
 
     //**************************************************************
     //Metodo constructor

@@ -8,7 +8,6 @@ package juegocartas;
 ***********************************************/
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 public class Baraja 
 {
@@ -26,6 +25,15 @@ public class Baraja
         return mazo;
     }
 
+    public List<Carta> getMazoBarajeado() {
+        return mazoBarajeado;
+    }
+
+    public void setMazoBarajeado(List<Carta> mazoBarajeado) {
+        this.mazoBarajeado = mazoBarajeado;
+    }
+    
+
     //**************************************************************
 
     //Asigna las cartas a la baraja
@@ -36,76 +44,141 @@ public class Baraja
     }
     
     //**************************************************************
+    
     // Generador de indices aleatorios para Barajear el mazo
-    public int random()
+    public int random(int tipoMazo)
     {
-        int randomIndex = (int)(Math.random()*52);
+        int randomIndex = 0;
+        if(tipoMazo == 1)
+        {
+            randomIndex = (int)(Math.random()*52);
+        }
+        else
+        {
+            randomIndex = (int)(Math.random()*40);
+        }
         return randomIndex;        
     }
     
     //**************************************************************
+    
     //Crea las cartas para la baraja
-    public void generarCarta(String palo)
+    public void generarCarta(String palo,int tipoMazo)
     {
         int contador = 1;
-        for (int i = 0; i < 13; i++)
-        {
-            if(contador==1)
-            {               
-                addCarta(palo, "As");                
-                contador+=1;                
-            }            
-            else if(contador>1 && contador<=10)
-            {                 
-                String numeroCarta = Integer.toString(contador);
-                addCarta(palo, numeroCarta);               
-                contador+=1;                
-            }
-            else if(contador>10 && contador<=13)
+            if(tipoMazo == 1)
             {
-                addCarta(palo, "J");
-                addCarta(palo, "Q");
-                addCarta(palo, "K");
-                contador+=3;
+                for (int i = 0; i < 13; i++)
+                {
+                    if(contador==1)
+                    {
+                        addCarta(palo, "As");                
+                        contador+=1; 
+                    }
+                    else if(contador>1 && contador<=10)
+                    {
+                        String numeroCarta = Integer.toString(contador);
+                        addCarta(palo, numeroCarta);               
+                        contador+=1;
+                    }
+                    else if(contador>10 && contador<=13)
+                    {
+                        addCarta(palo, "J");
+                        addCarta(palo, "Q");
+                        addCarta(palo, "K");
+                        contador+=3;
+                    }
+                }
             }
-        }
+            else if (tipoMazo == 2)// baraja 7ymedio
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    if(contador==1)
+                    {               
+                        addCarta(palo, "As");                
+                        contador+=1;
+                    }
+                    else if(contador>1 && contador<=7)
+                    { 
+                        String numeroCarta = Integer.toString(contador);
+                        addCarta(palo, numeroCarta);               
+                        contador+=1;
+                    }
+                    else if(contador>7 && contador<=10)
+                    {
+                        addCarta(palo, "J");
+                        addCarta(palo, "Q");
+                        addCarta(palo, "K");
+                        contador+=3;
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("El tipo de mazo seleccionado no existe seleccione 1 para mazo completo - 2 para mazo tipo 7");
+            }
     }
     
     //**************************************************************
+    
     // Asigna un tipo de palo a la carta creada
-    public void llenarMazo()
+    public void llenarMazo(int tipoMazo)
     {
         while (true){
-            if(mazo.size() ==0)
+            if(tipoMazo==1)
             {
-            generarCarta("Picas");
-            }            
-            else if(mazo.size()==13)
-            {
-                generarCarta("Corazón"); 
+                if(mazo.size() ==0)
+                {
+                generarCarta("Pica",tipoMazo);
+                }            
+                else if(mazo.size()==13)
+                {
+                    generarCarta("Corazón",tipoMazo); 
+                }
+                else if(mazo.size()== 26)
+                {
+                    generarCarta("Diamante",tipoMazo); 
+                }
+                else if(mazo.size()==39)
+                {
+                    generarCarta("Trébol",tipoMazo); 
+                    break;
+                }
             }
-            else if(mazo.size()== 26)
+            else
             {
-                generarCarta("Diamante"); 
-            }
-            else if(mazo.size()==39)
-            {
-                generarCarta("Trébol"); 
-                break;
+                if(mazo.size() ==0)
+                {
+                generarCarta("Pica",tipoMazo);
+                }            
+                else if(mazo.size()==10)
+                {
+                    generarCarta("Corazón",tipoMazo); 
+                }
+                else if(mazo.size()== 20)
+                {
+                    generarCarta("Diamante",tipoMazo); 
+                }
+                else if(mazo.size()==30)
+                {
+                    generarCarta("Trébol",tipoMazo); 
+                    break;
+                }
             }
         }
-
     }
     
     //**************************************************************
     //Metodo para controlar cartas repetidas 
-    public boolean cartasIguales(List<Carta> list, String paloMazo1, String idenMazo1 )
+    public boolean cartasIguales(List<Carta> list, String paloMazo1, String idenMazo1)
     {
         for (int i = 0; i < list.size(); i++)
         {
             String paloMazo2 = list.get(i).getPalo();
             String idenMazo2 = list.get(i).getIdentificadorCarta();
-            if( paloMazo2 == paloMazo1 && idenMazo2 == idenMazo1){
+            if( paloMazo2 == paloMazo1 && idenMazo2 == idenMazo1)
+            {
                 return true;
             }               
         } 
@@ -114,12 +187,11 @@ public class Baraja
     
     //**************************************************************
     //Cambiamos el orden de la baraja 
-    public void barajear()
+    public void barajear(int tipoMazo)
     {
-        
         while(mazo.size() != mazoBarajeado.size())
         {
-            int posicionCarta= random();
+            int posicionCarta= random(tipoMazo);
             Carta cartaMazo1=mazo.get(posicionCarta);
             String paloMazo1 = mazo.get(posicionCarta).getPalo();   
             String idenMazo1 = mazo.get(posicionCarta).getIdentificadorCarta();
@@ -128,48 +200,7 @@ public class Baraja
                 mazoBarajeado.add(cartaMazo1);             
             }           
         }
-        System.out.println("MAZO BARAJEADO");
-
-    }    
-
-    //Asignamos cartas a un jugador
-    public TreeSet<String> repartirCarta(int jugador)
-    {
-        System.out.println("CARTAS JUGADOR "+ (jugador+1));
-        TreeSet<String> lista = new TreeSet<String>();
-
-        for (int i = 0; i < 5; i++)
-        {
-            if(i >= mazoBarajeado.size())
-            {
-                try
-                {
-                    lista.add(mazoBarajeado.get(mazoBarajeado.size()-1).toString());     
-                    mazoBarajeado.remove(mazoBarajeado.size()-1);
-                }
-                catch(ArrayIndexOutOfBoundsException error)
-                {
-                    System.out.println("Lo sientimos Cantidad de cartas insuficiente para el ultimo jugador inicia de nuevo");
-                    break;
-                }
-            }
-            else
-            {
-                lista.add(mazoBarajeado.get(i).toString());     
-                mazoBarajeado.remove(i);
-            }
-        }
-        return lista;
-    }    
-
-    //Creamos el numero de jugadores y repartimos cartas
-    public void Jugadores(int jugadores )
-    {
-        System.out.println("CANTIDAD DE JUGADORES "+jugadores);
-        for (int i = 0; i < jugadores; i++)
-        {
-            System.out.println(repartirCarta(i));
-        }
-    }   
-
+        System.out.println("EL MAZO HA SIDO BARAJEADO");
+    } 
 }
+
