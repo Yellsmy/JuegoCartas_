@@ -2,14 +2,15 @@ package juegocartas;
 import java.util.ArrayList;
 import java.util.List;
 /***********************************************
-* JuegoCartas.java
+* RegistroJugadores.java
 * Yellsmy - Eddison - Roberto - Wilson
 *
-* Main ejecuta la clase baraja, crea una baraja, cambia el orden de la baraja y reparte cartas a los jugadores 
+* Registra todos los jugadores que son parte del juego
 ***********************************************/
 
 public class RegistroJugadores
 {
+    // Declaración de una lista que almacenará todos los jugadores
     List<Jugador> registroJugadores = new ArrayList<Jugador>();
 
     //**************************************************************
@@ -21,6 +22,7 @@ public class RegistroJugadores
 
     //**************************************************************
     
+    // Método get y set de la clase RegistroJugadores
     public List<Jugador> getRegistroJugadores()
     {
         return registroJugadores;
