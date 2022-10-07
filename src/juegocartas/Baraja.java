@@ -195,7 +195,7 @@ public class Baraja
             Carta cartaMazo1=mazo.get(posicionCarta);
             String paloMazo1 = mazo.get(posicionCarta).getPalo();   
             String idenMazo1 = mazo.get(posicionCarta).getIdentificadorCarta();
-            if(!cartasIguales(mazoBarajeado, paloMazo1,idenMazo1 ))
+            if(!cartasIguales(mazoBarajeado, paloMazo1,idenMazo1))
             {
                 mazoBarajeado.add(cartaMazo1);             
             }           
