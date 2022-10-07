@@ -2,19 +2,22 @@ package juegocartas;
 import java.util.ArrayList;
 import java.util.List;
 /***********************************************
-* JuegoCartas.java
+* Jugador.java
 * Yellsmy - Eddison - Roberto - Wilson
 *
-* Main ejecuta la clase baraja, crea una baraja, cambia el orden de la baraja y reparte cartas a los jugadores 
+* Contiene un jugador y todos sus atributos
 ***********************************************/
 
 public class Jugador
 {
+    // Declaración del id del jugador
     private int id;
+    // Declaración de los puntos del jugador
     private double puntos;
 
     //**************************************************************
     
+    // Constructor de la clase 
     public Jugador(int id, double puntos)
     {
         this.id = id;
@@ -23,6 +26,7 @@ public class Jugador
     
     //**************************************************************
 
+    // Metodos getter setter de la clase Jugadores
     public int getId()
     {
         return id;
