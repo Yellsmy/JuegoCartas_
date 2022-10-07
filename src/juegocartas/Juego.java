@@ -1,28 +1,33 @@
 package juegocartas;
-
 import java.util.Scanner;
 /***********************************************
-* JuegoCartas.java
+* Juego.java
 * Yellsmy - Eddison - Roberto - Wilson
 *
-* Main ejecuta la clase baraja, crea una baraja, cambia el orden de la baraja y reparte cartas a los jugadores 
+* Contiene todas las funciones que construyen el juego
+* Hereda y hace uso de la clase Baraja
 ***********************************************/
 
 public class Juego  extends Baraja
 {
+    // Instancia de la clase RegistroJugadores
     RegistroJugadores listaJugadores = new RegistroJugadores();
     Scanner sc = new Scanner(System.in);
+    // Creación de array que contiene el índice de los jugadores
     Integer[] indiceJugador;
 
     //**************************************************************
     
+    // Constructor vacío
     public Juego()
     {
         
     }
     
     //**************************************************************
-         
+    
+    // Registra un jugador y los ingresa en la lista de registro
+    // @param idJugador: Recibe el id del jugador para registrarlo en la lista
     public void registrar(int idJugador)
     { 
         String carta = repartirCarta();
@@ -37,6 +42,10 @@ public class Juego  extends Baraja
     
     //**************************************************************
     
+    /* Asigna un valor a cada carta dependiendo de su id
+     * @param cartaRepartida: Carta del jugador para asignarle un valor
+     * @param tipoMazo: Tipo de mazo dependiendo del tipo de juego elegido al inicio
+     */
     public double valorCartaRepartida(String cartaRepartida,int tipoMazo)
     {
         if(tipoMazo==1)
@@ -150,6 +159,7 @@ public class Juego  extends Baraja
     
     //**************************************************************
     
+    // Reparte una carta al jugador
     public String repartirCarta()
     {
         String cartaRepartida="";
@@ -181,6 +191,10 @@ public class Juego  extends Baraja
     
     //**************************************************************
     
+    /* Suma los puntos acumulados + los puntos de la carta repartida al jugador
+     * @param id Jugador: Recibe el id del jugador para asignarle los puntos
+     * @param puntosCarta: Recibe los puntos de la carta repartida al jugador
+     */
     public double agregarCartaJugador(int idJugador, double puntosCarta)
     {
         double totalPuntos = 0;
@@ -198,7 +212,10 @@ public class Juego  extends Baraja
     
     //**************************************************************
     
-    public Jugador ganador(int bandera){
+    /* Busca al jugador con el punteo más cercano al límite de puntos dependiendo del
+     * tipo de juego que esté en ejecución 
+    */
+    public Jugador ganador(){
         Jugador jugador = listaJugadores.registroJugadores.get(0);
         
         for (int i = 0; i <listaJugadores.registroJugadores.size(); i++)
@@ -212,7 +229,7 @@ public class Juego  extends Baraja
     
     //**************************************************************
     
-    
+    // Llena el array con los índices de cada jugador, recibe la cantidad de jugadores
     public void jugadores(int jugadores )
     {
         indiceJugador=new Integer[jugadores];
@@ -224,7 +241,26 @@ public class Juego  extends Baraja
     
     //**************************************************************
     
-     public int turnoJugadores(int tipoMazo)
+    // Establece el límite de puntos para ganar, dependiendo del tipo de juego elegido al inicio
+    public double limitePuntos(int tipoMazo)
+    {
+        if(tipoMazo ==1){
+            return 10.5;
+        }
+        else if(tipoMazo == 2){
+            return 7.5;
+        }
+        return 0;
+    }
+    
+    //**************************************************************
+    
+    /* Da un turno a cada jugador para que elija si toma una carta o no
+     * Si en una ronda todos los jugadores deciden no tomar una carta, finaliza el juego
+     * Y llama a los métodos auxiliares para elegir al jugador ganador
+     * @param tipoMazo: Recibe el tipo de mazo dependiendo el tipo de juego elegido al inicio
+    */
+    public int turnoJugadores(int tipoMazo)
     {
         String cartaRepartida;
         boolean continuar = true;
@@ -244,12 +280,13 @@ public class Juego  extends Baraja
                     double puntos = agregarCartaJugador((i+1),valorCarta);
                     System.out.println("Jugador "+indiceJugador[i]+" carta repartida "+cartaRepartida+" puntos de Carta "+valorCarta);
                     System.out.println("Puntos acumulados: "+puntos);
-                    if(puntos== 7.5){
+                    double limitePuntos = limitePuntos(tipoMazo);
+                    if(puntos== limitePuntos){
                         System.out.println("¡FELICIDADES JUGADOR "+indiceJugador[i]+"!");
                         System.out.println("       HAS GANADO       ");
                         return 0;
                     }
-                    else if(puntos> 7.5){
+                    else if(puntos> limitePuntos){
                         System.out.println("Lo sentimos Jugador "+indiceJugador[i]);
                         System.out.println(" Has perdido");
                         listaJugadores.registroJugadores.remove(i);
