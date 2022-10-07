@@ -3,7 +3,8 @@ package juegocartas;
 * JuegoCartas.java
 * Yellsmy - Eddison - Roberto - Wilson
 *
-* Main ejecuta la clase baraja, crea una baraja, cambia el orden de la baraja y reparte cartas a los jugadores 
+* Main ejecuta el método para elegir el tipo de juego el cual ejecuta 
+* las funciones necesarias para jugar.
 ***********************************************/
     
 
@@ -15,8 +16,12 @@ public class JuegoCartas
     
     //**************************************************************
     
-    public void menu(int tipoMazo)
+    /* Ejecuta las funciones que construyen el juego
+     * @param tipoMazo: tipo de mazo que se necesita para el juego
+     */
+    public void jugar(int tipoMazo)
     {
+        //Instancia de la clase juego
         Juego jugar = new Juego();
         boolean salir = false;
         int opcion;
@@ -37,10 +42,9 @@ public class JuegoCartas
                     jugar.llenarMazo(tipoMazo);
                     //Barajear cartas
                     jugar.barajear(tipoMazo);
-                    //Repartir cartas a jugadores;
                     System.out.println("Cuántos jugadores? ");
                     int cantidadJugadores = op.nextInt();
-                    if(cantidadJugadores  >10)
+                    if(cantidadJugadores > 10)
                     {
                         System.out.println("Lo sentimos, la cantidad máxima de jugadores es 10");
                         salir = true;
@@ -53,11 +57,10 @@ public class JuegoCartas
                         {
                             jugar.registrar(i+1);                   
                         }
-                        int bandera = jugar.turnoJugadores(tipoMazo);
-                        Jugador ganador =jugar.ganador(bandera);
+                        jugar.turnoJugadores(tipoMazo);
+                        Jugador ganador =jugar.ganador();
                             System.out.println("FELICIDADES JUGADOR "+ganador.getId());
                             System.out.println("Has ganado con "+ganador.getPuntos()+ " puntos");
-                        
                     }
                     salir = true;
                     break;
@@ -72,6 +75,7 @@ public class JuegoCartas
     
     //**************************************************************
     
+    // Elección del tipo de juego que el jugador quiere jugar
     public void tipoDeJuego()
     {
         boolean salir = false;
@@ -91,17 +95,21 @@ public class JuegoCartas
             }
             else
             {
-                menu(opcion);
+                jugar(opcion);
             }
         }
     }
     
+    //**************************************************************
     
-    public static void main(String[] args) 
-        
+    public static void main(String[] args)  
     {
+        // Instancia de la clase JuegoCartas
         JuegoCartas juego = new JuegoCartas();
-        juego.tipoDeJuego(); 
+        
+        // Inicio del juego
+        juego.tipoDeJuego();
+        
     }//End main
 
 }//End clase JuegoCartas
