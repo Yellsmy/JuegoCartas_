@@ -13,7 +13,8 @@ public class Carta
 
     //**************************************************************
     //Metodo constructor
-    public Carta(String palo, String identificadorCarta) {
+    public Carta(String palo, String identificadorCarta)
+    {
         this.palo = palo;
         this.identificadorCarta = identificadorCarta;
     }
