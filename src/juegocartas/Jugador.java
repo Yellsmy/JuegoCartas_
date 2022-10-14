@@ -1,6 +1,4 @@
 package juegocartas;
-import java.util.ArrayList;
-import java.util.List;
 /***********************************************
 * Jugador.java
 * Yellsmy - Eddison - Roberto - Wilson
