@@ -9,13 +9,15 @@ package juegocartas;
 public class Carta 
 {
     String palo;
+    char simboloAscii;
     String identificadorCarta;
 
     //**************************************************************
     //Metodo constructor
-    public Carta(String palo, String identificadorCarta)
+    public Carta(String palo,char simboloAscii, String identificadorCarta)
     {
         this.palo = palo;
+        this.simboloAscii = simboloAscii;
         this.identificadorCarta = identificadorCarta;
     }
 
@@ -45,6 +47,8 @@ public class Carta
     @Override
     public String toString() 
     {
-        return identificadorCarta + "-"+ palo;
+        // return identificadorCarta + " " + simboloAscii+ " "+ palo ;
+        String carta=String.format("\nCarta de tipo %s \n|-----| \n|%s %s %s| \n|_____|",palo, simboloAscii,identificadorCarta, simboloAscii);
+        return carta;
     }
 }
