@@ -6,14 +6,15 @@ package juegocartas;
 * Main ejecuta el método para elegir el tipo de juego el cual ejecuta 
 * las funciones necesarias para jugar.
 ***********************************************/
-    
 
+//Libreria para ingresar valores por la consola
 import java.util.Scanner;
 
 public class JuegoCartas 
 {
-    Scanner op = new Scanner(System.in);
     
+    //inicializamos objeto que permite el ingreso de valores 
+    Scanner op = new Scanner(System.in);
     //**************************************************************
     
     /* Ejecuta las funciones que construyen el juego
@@ -21,20 +22,41 @@ public class JuegoCartas
      */
     public void jugar(int tipoMazo)
     {
+        
         //Instancia de la clase juego
         Juego jugar = new Juego();
         boolean salir = false;
         int opcion;
         while(!salir)
         {
-            System.out.println("");
-            System.out.println("|---------------**BIENVENIDO**-------------|"); 
-            System.out.println("|          **JUEGO CARTAS 7 Y MEDIO**      |");
-            System.out.println("|  1. Start                                |");
-            System.out.println("|  0. Regresar                             |");
-            System.out.println("| ----------Selecciona la opción---------- |");
+            //Mesaje de juego segun el tipo de mazo 
+            if(tipoMazo==1)
+            {
+                System.out.println("");
+                System.out.println("|---------------**BIENVENIDO**-------------|"); 
+                System.out.println("|        **JUEGO CARTAS 10 Y MEDIO**        |");
+                System.out.println("|  1. Start                                |");
+                System.out.println("|  0. Regresar                             |");
+                System.out.println("| ----------Selecciona la opción---------- |");
+            }
+            else if (tipoMazo==2)
+            {
+                System.out.println("");
+                System.out.println("|---------------**BIENVENIDO**-------------|"); 
+                System.out.println("|        **JUEGO CARTAS 7 Y MEDIO**        |");
+                System.out.println("|  1. Start                                |");
+                System.out.println("|  0. Regresar                             |");
+                System.out.println("| ----------Selecciona la opción---------- |");
+            }
+            else
+            {
+                System.out.println("El valor ingresado es incorrecto");
+                break;
+            }
+            // Variables que almacenan el dato ingresado por consola
             opcion = op.nextInt();
             op.nextLine();
+
             switch(opcion)
             {
                 case 1:
@@ -42,9 +64,12 @@ public class JuegoCartas
                     jugar.llenarMazo(tipoMazo);
                     //Barajear cartas
                     jugar.barajear(tipoMazo);
+
+                    //asignacion de jugadores dinamica
                     System.out.println("Cuántos jugadores? ");
                     int cantidadJugadores = op.nextInt();
-                    if(cantidadJugadores > 10)
+
+                    if(cantidadJugadores > 10)// validamos una cantidad minima de jugadores 
                     {
                         System.out.println("Lo sentimos, la cantidad máxima de jugadores es 10");
                         salir = true;
@@ -55,12 +80,19 @@ public class JuegoCartas
                         jugar.jugadores(cantidadJugadores);
                         for (int i=0; i < cantidadJugadores; i++)
                         {
-                            jugar.registrar(i+1);                   
+                            jugar.registrar(i+1,tipoMazo);  //registramos los jugadores y asignamos la primera carta y puntos de forma aleatoria
                         }
-                        jugar.turnoJugadores(tipoMazo);
-                        Jugador ganador =jugar.ganador();
-                            System.out.println("FELICIDADES JUGADOR "+ganador.getId());
-                            System.out.println("Has ganado con "+ganador.getPuntos()+ " puntos");
+                        
+                        jugar.turnoJugadores(tipoMazo);// inician los turnos segun el registro de jugadores
+                        try{//si en caso no existe ganador capturamos el error para no detener el juego
+                            Jugador ganador =jugar.ganador();// buscamos si existe ganador dentro de los jugadores
+                            System.out.println("\033[32mFELICIDADES JUGADOR "+ganador.getId());
+                            System.out.println("\033[32mHas ganado con \033[33m"+ganador.getPuntos()+ " \033[32mpuntos");
+                            System.out.println("\033[31mFIN DE PARTIDA");
+
+                        }catch(IndexOutOfBoundsException error){
+                            System.out.println("\033[31mFIN DE PARTIDA");
+                        }
                     }
                     salir = true;
                     break;
@@ -76,11 +108,12 @@ public class JuegoCartas
     //**************************************************************
     
     // Elección del tipo de juego que el jugador quiere jugar
-    public void tipoDeJuego()
+    public void tipoDeJuego() 
     {
+
         boolean salir = false;
         while(!salir){
-            System.out.println("");
+            System.out.println("\033[37m");
             System.out.println("|------------**BIENVENIDO**------------|"); 
             System.out.println("| ¿Qué tipo de juego deseas jugar?     |");
             System.out.println("|  1. 10 y medio                       |");
